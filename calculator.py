@@ -2,6 +2,30 @@
 # Assignment: Group Project
 # Conmpleted(or last version): 12/05/2022
 
+def equal():
+    global formula
+
+    try:
+
+        total = str(eval(formula))
+
+        print_formula(total)
+
+        formula = total
+
+    except SyntaxError:
+
+        print_formula("SyntaxError")
+
+        formula = ''
+
+    except ZeroDivisionError:
+
+        print_formula("ZeroDivisionError")
+
+        formula = ''
+
+
 
 Button1 = Button(Frame, text=1, width=5, height=4, font=30, command=lambda: clickbutton(1))
 Button1.grid(row=2, column=0)
