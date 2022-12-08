@@ -299,6 +299,8 @@ ttk.Button(root, text="^", command=lambda: append_implicit("**")).grid(row=5, co
 ttk.Button(root, text="(", command=lambda: append_closing_parentheses_formula("(")).grid(row=4, column=0)
 ttk.Button(root, text=")", command=lambda: append_formula(")")).grid(row=4, column=1)
 ttk.Button(root, text=".", command=lambda: append_formula(".")).grid(row=4, column=2)
+ttk.Button(root, text="\u221ax", command=lambda: append_implicit("*0.5")).grid(row=4, column=4)
+
 ttk.Button(root, text="Delete", command=lambda: delete_formula()).grid(row=8, column=0)
 ttk.Button(root, text="Clear", command=lambda: clear_formula()).grid(row=9, column=0)
 
