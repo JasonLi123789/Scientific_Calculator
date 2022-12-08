@@ -25,11 +25,11 @@ def equal():
         formula = total
 
     except SyntaxError:
-        print_formula("SyntaxError")
+        print_error("SyntaxError")
         formula = ''
 
     except ZeroDivisionError:
-        print_formula("ZeroDivisionError")
+        print_error("ZeroDivisionError")
         formula = ''
 
 
@@ -47,6 +47,10 @@ view_size = 6.0    #quadrant size
 def print_formula(pre_text):
     Label(root, text=formula + pre_text, relief=RIDGE,
           width=10).grid(row=1, column=0, columnspan=5, sticky=W + E)
+
+def print_error(input):
+    Label(root, text= input,relief=RIDGE,
+         width=10).grid(row=1, column=0, columnspan=5, sticky=W + E)
 
 
 def translate(x_current, y_current):
@@ -117,8 +121,15 @@ def draw_grid():
     draw_line(-5, 0, -5, view_size, "grey")    #(0,-5)
     draw_line(-5, 0, -5, -view_size, "grey")    #(0,-5)
 
+def draw_first_graph(event):
+    canvas.delete("all")
+    draw_grid()
+    y_previous = 0.0
+    x = view_size * -1
+    print_formula("Welcome")
 
 def draw_graph(event):
+
     canvas.delete("all")
     draw_grid()
     y_previous = 0.0
@@ -132,12 +143,12 @@ def draw_graph(event):
             if eval(formula) < 0:
                 y *= -1
         except:
-            print_formula("SYNTAX ERROR")
+            print_error("SYNTAX ERROR")
             break
         try:
             draw_line(x - COMPUTATION_DISTANCE * view_size, y_previous, x, y, "yellow")
         except:
-            print_formula("NON-INT PWR (dbl click ^)   ")
+            print_error("NON-INT PWR (dbl click ^)   ")
             break
         y_previous = y
         x += COMPUTATION_DISTANCE * view_size
@@ -230,41 +241,20 @@ def append_closing_parentheses_formula(thing):
     formula += thing
     print_formula("")
 
-def equal():
-    global formula
-
-    try:
-
-        total = str(eval(formula))
-
-        print_formula("="+total)
-
-        formula = total
-
-    except SyntaxError:
-
-        print_formula("SyntaxError")
-
-        formula = ''
-
-    except ZeroDivisionError:
-
-        print_formula("ZeroDivisionError")
-
-        formula = ''
 
 root = Tk()
 
 root.wm_title("Graphing Calculator")
-# root.resizable(width=False, height=False)
+root.resizable(width=None, height=None)
 
 horizontal_screen = root.winfo_screenwidth() / 2.5 - root.winfo_reqwidth()
 vertical_screen = root.winfo_screenheight() / 2.5 - root.winfo_reqheight()
-root.geometry("+%d+%d" % (horizontal_screen, vertical_screen))
+# root.geometry("+%d+%d" % (horizontal_screen, vertical_screen))
 
 canvas = Canvas(root)
 
 print_formula("")
+
 
 ttk.Button(root, text="0", command=lambda: append_number_formula("0")).grid(row=6, column=0)
 ttk.Button(root, text="1", command=lambda: append_number_formula("1")).grid(row=6, column=1)
@@ -318,6 +308,11 @@ btn_enter.grid(row=8, column=2)
 canvas.grid(row=0, column=0, columnspan=5)
 
 draw_grid()
-draw_graph("event")
+first = True
+if first:
+    draw_first_graph(None)
+    first = False
+else:
+    draw_graph("event")
 
 root.mainloop()
