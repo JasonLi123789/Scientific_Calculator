@@ -21,7 +21,7 @@ def equal():
 
     try:
         total = str(eval(formula))
-        print_formula(total)
+        print_formula("="+total)
         formula = total
 
     except SyntaxError:
