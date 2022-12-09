@@ -2,6 +2,29 @@
 # Assignment: Group Project
 # Conmpleted(or last version): 12/05/2022
 
+# How to run:
+# ·Run our program in the compiler:
+#     -Open calculator.py file in the compiler
+#     -Click “Run”
+# 
+# ·Run our program as a small app:
+#     -If can download the .exe file:
+#         Click calculator.exe file. Then the program will be run as an app.
+# 
+#     -If can’t download the .exe file:
+#         ～Open calculator.py file in the compiler
+#         ～Open Terminal and enter “pip” or “pip3” to check your computer has one of those commands.
+#             if your computer does not have the command, then please check this url to install pip or pip3,
+#             https://www.geeksforgeeks.org/how-to-install-pip-in-macos/
+#         ～Make sure the current path in the terminal is the path that the .py file is at and type those commands into terminal one by one.
+#             pip(pip3) install pyinstaller
+#             pyinstaller --onefile -w calculator.py (this is our python file)
+#         ～It will auto generate a folder called “dist”, find it and open it.
+#         ～Click the calculator.exe file. Then the program will be run as an app.
+# 
+
+
+
 from tkinter import *
 from tkinter import ttk
 from math import pow
@@ -16,22 +39,6 @@ from math import tanh
 from math import log10
 from math import log
 
-def equal():
-    global formula
-
-    try:
-        total = str(eval(formula))
-        print_formula("="+total)
-        formula = total
-
-    except SyntaxError:
-        print_error("SyntaxError")
-        formula = ''
-
-    except ZeroDivisionError:
-        print_error("ZeroDivisionError")
-        formula = ''
-
 
 MAX_SIZE = 64.0
 MIN_SIZE = 1.0
@@ -40,12 +47,28 @@ INCREMENT = 2.0
 COMPUTATION_DISTANCE = 0.001
 ASYMPTOTE = 2.0
 
-formula = ""
+input = ""
 view_size = 6.0    #quadrant size
 
+def equal():
+    global input
 
-def print_formula(pre_text):
-    Label(root, text=formula + pre_text, relief=RIDGE,
+    try:
+        total = str(eval(input))
+        print_input("="+total)
+        input = total
+
+    except SyntaxError:
+        print_error("Syntax Error")
+        input = ''
+
+    except ZeroDivisionError:
+        print_error("ZeroDivisionError")
+        input = ''
+
+
+def print_input(pre_text):
+    Label(root, text=input + pre_text, relief=RIDGE,
           width=10).grid(row=1, column=0, columnspan=5, sticky=W + E)
 
 def print_error(input):
@@ -64,7 +87,7 @@ def translate(x_current, y_current):
     return tc
 
 
-def draw_line(x_from, y_from, x_to, y_to, colour):
+def line(x_from, y_from, x_to, y_to, colour):
     from_coord = translate(x_from, y_from)
     to_coord = translate(x_to, y_to)
     if y_to - y_from > view_size * ASYMPTOTE or y_from - y_to > view_size * ASYMPTOTE:
@@ -73,62 +96,62 @@ def draw_line(x_from, y_from, x_to, y_to, colour):
 
 
 def draw_grid():
-    draw_line(view_size * -1, 0, view_size, 0, "white")
-    draw_line(0, view_size * -1, 0, view_size, "white")
-    draw_line(view_size, 1, 0, 1, "grey")     #(1,0)
-    draw_line(view_size, 1, 0, 1, "grey")     #(1,0)
-    draw_line(-view_size, 1, 0, 1, "grey")
-    draw_line(view_size, 2, 0, 2, "grey")     #(2,0)
-    draw_line(-view_size, 2, 0, 2, "grey")     #(2,0)
-    draw_line(view_size, 3, 0, 3, "grey")     #(3,0)
-    draw_line(-view_size, 3, 0, 3, "grey")     #(3,0)
-    draw_line(view_size, 4, 0, 4, "grey")     #(4,0)
-    draw_line(-view_size, 4, 0, 4, "grey")     #(4,0)
-    draw_line(view_size, 5, 0, 5, "grey")     #(5,0)
-    draw_line(-view_size, 5, 0, 5, "grey")     #(5,0)
+    line(view_size, 1, 0, 1, "white")     #(1,0)
+    line(-view_size, 1, 0, 1, "white")
+    line(view_size, 2, 0, 2, "white")     #(2,0)
+    line(-view_size, 2, 0, 2, "white")     #(2,0)
+    line(view_size, 3, 0, 3, "white")     #(3,0)
+    line(-view_size, 3, 0, 3, "white")     #(3,0)
+    line(view_size, 4, 0, 4, "white")     #(4,0)
+    line(-view_size, 4, 0, 4, "white")     #(4,0)
+    line(view_size, 5, 0, 5, "white")     #(5,0)
+    line(-view_size, 5, 0, 5, "white")     #(5,0)
 
-    draw_line(0, -1, view_size, -1, "grey")     #(-1,0)
-    draw_line(0, -1, -view_size, -1, "grey")
-    draw_line(0, -2, view_size, -2, "grey")     #(-2,0)
-    draw_line(0, -2, -view_size, -2, "grey")
-    draw_line(0, -3, view_size, -3, "grey")     #(-3,0)
-    draw_line(0, -3, -view_size, -3, "grey")
-    draw_line(0, -4, view_size, -4, "grey")     #(-4,0)
-    draw_line(0, -4, -view_size, -4, "grey")
-    draw_line(0, -5, view_size, -5, "grey")     #(-5,0)
-    draw_line(0, -5, -view_size, -5, "grey")
+    line(0, -1, view_size, -1, "white")     #(-1,0)
+    line(0, -1, -view_size, -1, "white")
+    line(0, -2, view_size, -2, "white")     #(-2,0)
+    line(0, -2, -view_size, -2, "white")
+    line(0, -3, view_size, -3, "white")     #(-3,0)
+    line(0, -3, -view_size, -3, "white")
+    line(0, -4, view_size, -4, "white")     #(-4,0)
+    line(0, -4, -view_size, -4, "white")
+    line(0, -5, view_size, -5, "white")     #(-5,0)
+    line(0, -5, -view_size, -5, "white")
 
 
-    draw_line(1, view_size, 1, 0, "grey")    #(0,1)
-    draw_line(1, -view_size, 1, 0, "grey")    #(0,1)
-    draw_line(2, view_size, 2, 0, "grey")    #(0,2)
-    draw_line(2, -view_size, 2, 0, "grey")    #(0,2)
-    draw_line(3, view_size, 3, 0, "grey")    #(0,3)
-    draw_line(3, -view_size, 3, 0, "grey")    #(0,3)
-    draw_line(4, view_size, 4, 0, "grey")    #(0,4)
-    draw_line(4, -view_size, 4, 0, "grey")    #(0,4)
-    draw_line(5, view_size, 5, 0, "grey")    #(0,5)
-    draw_line(5, -view_size, 5, 0, "grey")    #(0,5)
+    line(1, view_size, 1, 0, "white")    #(0,1)
+    line(1, -view_size, 1, 0, "white")    #(0,1)
+    line(2, view_size, 2, 0, "white")    #(0,2)
+    line(2, -view_size, 2, 0, "white")    #(0,2)
+    line(3, view_size, 3, 0, "white")    #(0,3)
+    line(3, -view_size, 3, 0, "white")    #(0,3)
+    line(4, view_size, 4, 0, "white")    #(0,4)
+    line(4, -view_size, 4, 0, "white")    #(0,4)
+    line(5, view_size, 5, 0, "white")    #(0,5)
+    line(5, -view_size, 5, 0, "white")    #(0,5)
 
-    draw_line(-1, 0, -1, view_size, "grey")    #(0,-1)
-    draw_line(-1, 0, -1, -view_size, "grey")    #(0,-1)
-    draw_line(-2, 0, -2, view_size, "grey")    #(0,-2)
-    draw_line(-2, 0, -2, -view_size, "grey")    #(0,-2)
-    draw_line(-3, 0, -3, view_size, "grey")    #(0,-3)
-    draw_line(-3, 0, -3, -view_size, "grey")    #(0,-3)
-    draw_line(-4, 0, -4, view_size, "grey")    #(0,-4)
-    draw_line(-4, 0, -4, -view_size, "grey")    #(0,-4)
-    draw_line(-5, 0, -5, view_size, "grey")    #(0,-5)
-    draw_line(-5, 0, -5, -view_size, "grey")    #(0,-5)
+    line(-1, 0, -1, view_size, "white")    #(0,-1)
+    line(-1, 0, -1, -view_size, "white")    #(0,-1)
+    line(-2, 0, -2, view_size, "white")    #(0,-2)
+    line(-2, 0, -2, -view_size, "white")    #(0,-2)
+    line(-3, 0, -3, view_size, "white")    #(0,-3)
+    line(-3, 0, -3, -view_size, "white")    #(0,-3)
+    line(-4, 0, -4, view_size, "white")    #(0,-4)
+    line(-4, 0, -4, -view_size, "white")    #(0,-4)
+    line(-5, 0, -5, view_size, "white")    #(0,-5)
+    line(-5, 0, -5, -view_size, "white")    #(0,-5)
 
-def draw_first_graph(event):
+    line(view_size * -1, 0, view_size, 0, "black")
+    line(0, view_size * -1, 0, view_size, "black")
+
+def first_graph(event):
     canvas.delete("all")
     draw_grid()
     y_previous = 0.0
     x = view_size * -1
-    print_formula("Welcome")
+    print_input("Welcome")
 
-def draw_graph(event):
+def graph(event):
 
     canvas.delete("all")
     draw_grid()
@@ -136,17 +159,17 @@ def draw_graph(event):
     x = view_size * -1
     while x <= view_size:
         try:
-            y = eval(formula)
+            y = eval(input)
         except ValueError:
             y = 1000000000
             x = COMPUTATION_DISTANCE * view_size
-            if eval(formula) < 0:
+            if eval(input) < 0:
                 y *= -1
         except:
-            print_error("SYNTAX ERROR")
+            print_error("Syntax Error")
             break
         try:
-            draw_line(x - COMPUTATION_DISTANCE * view_size, y_previous, x, y, "yellow")
+            line(x - COMPUTATION_DISTANCE * view_size, y_previous, x, y, "blue")
         except:
             print_error("NON-INT PWR (dbl click ^)   ")
             break
@@ -154,50 +177,50 @@ def draw_graph(event):
         x += COMPUTATION_DISTANCE * view_size
 
 
-def append_formula(thing):
-    global formula
-    if formula.endswith('.') and thing == '.':
-        formula = formula[:-1]
-        formula += ","
+def append(thing):
+    global input
+    if input.endswith('.') and thing == '.':
+        input = input[:-1]
+        input += ","
     else:
-        formula += thing
-    print_formula("")
+        input += thing
+    print_input("")
 
 
-def clear_formula():
-    global formula
-    while formula != "":
-        delete_formula()
-    print_formula("")
+def clear():
+    global input
+    while input != "":
+        delete()
+    print_input("")
 
 
-def delete_formula():
-    global formula
-    formula = formula[:-1]
-    print_formula("")
+def delete():
+    global input
+    input = input[:-1]
+    print_input("")
 
 
 def zoom_in():
     global view_size, btn_zoom_in, btn_zoom_out
-    btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=8, column=3)
+    btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out())#.grid(row=9, column=3)
     if view_size > MIN_SIZE:
         view_size /= INCREMENT
-        draw_graph("event")
+        graph("event")
     if view_size == MIN_SIZE:
-        btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in(), state=DISABLED).grid(row=8, column=2)
-    draw_graph(None)
+        btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in(), state=DISABLED)#.grid(row=9, column=2)
+    graph(None)
 
 
 def zoom_out():
     global view_size, btn_zoom_out, btn_zoom_in
-    btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(row=8, column=2)
+    btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in())#.grid(row=9, column=2)
     if view_size < MAX_SIZE:
         view_size *= INCREMENT
-        draw_graph("event")
+        graph("event")
     if view_size == MAX_SIZE:
         btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out(),
-                                  state=DISABLED).grid(row=8, column=3)
-    draw_graph(None)
+                                  state=DISABLED)#.grid(row=9, column=3)
+    graph(None)
 
 
 def correct_ending_no_number(name):
@@ -209,64 +232,60 @@ def correct_ending(thing):
 
 
 def append_implicit(thing):
-    global formula
-    if correct_ending(formula):
+    global input
+    if correct_ending(input):
         if thing == "**":
-            formula += thing
+            input += thing
         else:
-            formula += "*" + thing
-    elif formula[-2:] == "**" and thing == "**":
-        formula = formula[:-2]
-        if correct_ending(formula):
-            formula += "*pow(x,"
+            input += "*" + thing
+    elif input[-2:] == "**" and thing == "**":
+        input = input[:-2]
+        if correct_ending(input):
+            input += "*pow(x,"
         else:
-            formula += "pow(x,"
+            input += "pow(x,"
     else:
-        formula += thing
-    print_formula("")
+        input += thing
+    print_input("")
 
 
-def append_number_formula(thing):
-    global formula
-    if correct_ending_no_number(formula) and thing.isdigit():
-        formula += "*"
-    formula += thing
-    print_formula("")
+def append_number(thing):
+    global input
+    if correct_ending_no_number(input) and thing.isdigit():
+        input += "*"
+    input += thing
+    print_input("")
 
 
-def append_closing_parentheses_formula(thing):
-    global formula
-    if correct_ending(formula) and thing == '(':
-        formula += "*"
-    formula += thing
-    print_formula("")
+def append_closing_parentheses_input(thing):
+    global input
+    if correct_ending(input) and thing == '(':
+        input += "*"
+    input += thing
+    print_input("")
 
 
 root = Tk()
 
-root.wm_title("Graphing Calculator")
+root.wm_title("Graphing Scientific Calculator")
 root.resizable(width=None, height=None)
 
-horizontal_screen = root.winfo_screenwidth() / 2.5 - root.winfo_reqwidth()
-vertical_screen = root.winfo_screenheight() / 2.5 - root.winfo_reqheight()
-# root.geometry("+%d+%d" % (horizontal_screen, vertical_screen))
 
 canvas = Canvas(root)
 
-print_formula("")
+print_input("")
 
+ttk.Button(root, text="0", command=lambda: append_number("0")).grid(row=6, column=0)
+ttk.Button(root, text="1", command=lambda: append_number("1")).grid(row=6, column=1)
+ttk.Button(root, text="2", command=lambda: append_number("2")).grid(row=6, column=2)
+ttk.Button(root, text="3", command=lambda: append_number("3")).grid(row=6, column=3)
+ttk.Button(root, text="4", command=lambda: append_number("4")).grid(row=6, column=4)
 
-ttk.Button(root, text="0", command=lambda: append_number_formula("0")).grid(row=6, column=0)
-ttk.Button(root, text="1", command=lambda: append_number_formula("1")).grid(row=6, column=1)
-ttk.Button(root, text="2", command=lambda: append_number_formula("2")).grid(row=6, column=2)
-ttk.Button(root, text="3", command=lambda: append_number_formula("3")).grid(row=6, column=3)
-ttk.Button(root, text="4", command=lambda: append_number_formula("4")).grid(row=6, column=4)
-
-ttk.Button(root, text="5", command=lambda: append_number_formula("5")).grid(row=7, column=0)
-ttk.Button(root, text="6", command=lambda: append_number_formula("6")).grid(row=7, column=1)
-ttk.Button(root, text="7", command=lambda: append_number_formula("7")).grid(row=7, column=2)
-ttk.Button(root, text="8", command=lambda: append_number_formula("8")).grid(row=7, column=3)
-ttk.Button(root, text="9", command=lambda: append_number_formula("9")).grid(row=7, column=4)
+ttk.Button(root, text="5", command=lambda: append_number("5")).grid(row=7, column=0)
+ttk.Button(root, text="6", command=lambda: append_number("6")).grid(row=7, column=1)
+ttk.Button(root, text="7", command=lambda: append_number("7")).grid(row=7, column=2)
+ttk.Button(root, text="8", command=lambda: append_number("8")).grid(row=7, column=3)
+ttk.Button(root, text="9", command=lambda: append_number("9")).grid(row=7, column=4)
 
 ttk.Button(root, text="sin", command=lambda: append_implicit("sin(")).grid(row=2, column=0)
 ttk.Button(root, text="cos", command=lambda: append_implicit("cos(")).grid(row=2, column=1)
@@ -280,19 +299,19 @@ ttk.Button(root, text="tanh", command=lambda: append_implicit("tanh(")).grid(row
 ttk.Button(root, text="log", command=lambda: append_implicit("log10(")).grid(row=3, column=3)
 ttk.Button(root, text="ln", command=lambda: append_implicit("log(")).grid(row=3, column=4)
 
-ttk.Button(root, text="+", command=lambda: append_formula("+")).grid(row=5, column=0)
-ttk.Button(root, text="-", command=lambda: append_formula("-")).grid(row=5, column=1)
-ttk.Button(root, text="*", command=lambda: append_formula("*")).grid(row=5, column=2)
-ttk.Button(root, text="/", command=lambda: append_formula("/")).grid(row=5, column=3)
+ttk.Button(root, text="+", command=lambda: append("+")).grid(row=5, column=0)
+ttk.Button(root, text="-", command=lambda: append("-")).grid(row=5, column=1)
+ttk.Button(root, text="*", command=lambda: append("*")).grid(row=5, column=2)
+ttk.Button(root, text="/", command=lambda: append("/")).grid(row=5, column=3)
 ttk.Button(root, text="^", command=lambda: append_implicit("**")).grid(row=5, column=4)
 
-ttk.Button(root, text="(", command=lambda: append_closing_parentheses_formula("(")).grid(row=4, column=0)
-ttk.Button(root, text=")", command=lambda: append_formula(")")).grid(row=4, column=1)
-ttk.Button(root, text=".", command=lambda: append_formula(".")).grid(row=4, column=2)
+ttk.Button(root, text="(", command=lambda: append_closing_parentheses_input("(")).grid(row=4, column=0)
+ttk.Button(root, text=")", command=lambda: append(")")).grid(row=4, column=1)
+ttk.Button(root, text=".", command=lambda: append(".")).grid(row=4, column=2)
 ttk.Button(root, text="\u221ax", command=lambda: append_implicit("*0.5")).grid(row=4, column=4)
 
-ttk.Button(root, text="Delete", command=lambda: delete_formula()).grid(row=8, column=0)
-ttk.Button(root, text="Clear", command=lambda: clear_formula()).grid(row=9, column=0)
+ttk.Button(root, text="Delete", command=lambda: delete()).grid(row=8, column=0)
+ttk.Button(root, text="Clear", command=lambda: clear()).grid(row=9, column=0)
 
 ttk.Button(root, text="=", command=lambda: equal()).grid(row=8, column=3)
 
@@ -302,7 +321,7 @@ btn_zoom_in = ttk.Button(root, text="Zoom In", command=lambda: zoom_in()).grid(r
 btn_zoom_out = ttk.Button(root, text="Zoom Out", command=lambda: zoom_out()).grid(row=9, column=3)
 ttk.Button(root, text="Exit App", command=lambda: exit(0)).grid(row=9, column=4)
 
-btn_enter.bind('<Button-1>', draw_graph)
+btn_enter.bind('<Button-1>', graph)
 
 btn_enter.grid(row=8, column=2)
 canvas.grid(row=0, column=0, columnspan=5)
@@ -310,9 +329,9 @@ canvas.grid(row=0, column=0, columnspan=5)
 draw_grid()
 first = True
 if first:
-    draw_first_graph(None)
+    first_graph(None)
     first = False
 else:
-    draw_graph("event")
+    graph("event")
 
 root.mainloop()
